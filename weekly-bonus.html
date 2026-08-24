@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주휴수당 계산기 | 근로·급여 계산기</title>
+<meta name="description" content="근무시간과 시급을 입력하면 주휴수당을 자동으로 계산합니다.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23C96A4E'/%3E%3Ctext x='50' y='68' font-size='54' text-anchor='middle' fill='%23FFFFFF' font-family='sans-serif'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-soft:#FAF8F7; --ink:#26241F; --ink-soft:#6B6459; --ink-faint:#A39C90;
+    --accent:#C96A4E; --accent-soft:#FBEAE2; --accent-ink:#8A4530;
+    --money:#4C8B6D; --money-soft:#EAF5EF;
+    --line:#EAE5DF; --sans:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'Courier New',monospace; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  .icon{width:16px;height:16px;flex-shrink:0;}
+  .icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+
+  .topbar{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);z-index:10;}
+  .topbar-inner{max-width:900px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+  .brand{font-weight:800;font-size:1.02rem;letter-spacing:-.01em;display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;}
+  .topnav{display:flex;gap:16px;font-size:.82rem;}
+  .topnav a{text-decoration:none;color:var(--ink-soft);}
+  .topnav a:hover{color:var(--ink);}
+
+  .toolsnav{border-bottom:1px solid var(--line);background:var(--bg-soft);overflow-x:auto;white-space:nowrap;}
+  .toolsnav-inner{max-width:900px;margin:0 auto;padding:9px 20px;display:flex;gap:6px;justify-content:flex-start;}
+  .toolsnav a{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;color:var(--ink-soft);text-decoration:none;padding:6px 11px;border-radius:100px;flex-shrink:0;}
+  .toolsnav a:hover{background:var(--accent-soft);color:var(--accent-ink);}
+  .toolsnav a.active{background:var(--accent);color:#fff;}
+  @media (min-width: 860px){
+    .toolsnav{overflow-x:visible;}
+    .toolsnav-inner{flex-wrap:wrap;justify-content:center;white-space:normal;}
+  }
+
+  .hero{padding:40px 0 20px;}
+  .eyebrow{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--accent-ink);background:var(--accent-soft);padding:5px 11px;border-radius:100px;margin-bottom:16px;}
+  h1{font-size:1.7rem;font-weight:800;margin:0 0 10px;letter-spacing:-.02em;line-height:1.3;}
+  .hero p{color:var(--ink-soft);font-size:.96rem;max-width:50ch;margin:0;}
+
+  .card{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:26px;margin:24px 0 32px;box-shadow:0 2px 10px rgba(38,36,31,.05);}
+
+  .segmented{display:inline-flex;background:var(--bg-soft);border-radius:10px;padding:4px;margin-bottom:20px;}
+  .segmented button{border:none;background:transparent;padding:9px 18px;border-radius:8px;font-family:var(--sans);font-weight:700;font-size:.86rem;color:var(--ink-soft);cursor:pointer;}
+  .segmented button.active{background:var(--accent);color:#fff;}
+
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:8px;}
+  .amount-input{position:relative;}
+  .amount-input input{width:100%;font-family:var(--mono);font-size:1.1rem;font-weight:600;border:1.5px solid var(--line);border-radius:10px;padding:12px 44px 12px 14px;background:var(--bg-soft);color:var(--ink);}
+  .amount-input span.suffix{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--ink-faint);font-size:.88rem;font-weight:600;}
+  .amount-input input:focus{outline:none;border-color:var(--accent);background:#fff;}
+  .preview{font-size:.78rem;color:var(--ink-faint);margin-top:6px;font-family:var(--mono);}
+  .hint{font-size:.76rem;color:var(--ink-faint);margin-top:6px;}
+
+  .stepper{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .stepper button{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg-soft);font-size:1.05rem;font-weight:700;color:var(--ink);cursor:pointer;line-height:1;}
+  .stepper button:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);}
+  .stepper .count{font-family:var(--mono);font-size:1.02rem;font-weight:700;min-width:40px;text-align:center;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+  .btn-row{display:flex;gap:10px;margin-top:6px;}
+  .btn-primary{flex:1;background:var(--accent);color:#fff;border:none;font-family:var(--sans);font-weight:800;font-size:.98rem;padding:14px;border-radius:12px;cursor:pointer;letter-spacing:-.01em;}
+  .btn-primary:hover{background:var(--accent-ink);}
+  .btn-reset{background:var(--bg-soft);color:var(--ink-soft);border:1.5px solid var(--line);font-family:var(--sans);font-weight:700;font-size:.9rem;padding:14px 16px;border-radius:12px;cursor:pointer;}
+  .btn-reset:hover{background:#F1ECE7;}
+
+  .result{margin-top:24px;display:none;}
+  .result.show{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .result-panel{background:var(--money-soft);border-radius:16px;padding:20px 22px;margin-bottom:16px;}
+  .result-label{font-size:.83rem;color:var(--money);font-weight:700;margin-bottom:4px;}
+  .result-amount{font-family:var(--mono);font-weight:700;font-size:1.9rem;color:var(--money);letter-spacing:-.02em;font-variant-numeric:tabular-nums;word-break:break-all;}
+  .result-amount small{font-size:.95rem;font-weight:600;margin-left:4px;color:var(--money);}
+  .result-sub{font-size:.83rem;color:var(--money);margin-top:4px;opacity:.85;}
+
+  table.deductions{width:100%;border-collapse:collapse;font-size:.9rem;}
+  table.deductions td{padding:9px 0;border-bottom:1px solid var(--line);}
+  table.deductions td:first-child{color:var(--ink-soft);}
+  table.deductions td:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;}
+  table.deductions tr.total td{border-bottom:none;border-top:2px solid var(--ink);font-weight:800;padding-top:12px;}
+
+  .disclaimer{font-size:.75rem;color:var(--ink-faint);margin-top:14px;line-height:1.6;}
+
+  section.info{margin:40px 0;}
+  section.info h2{font-size:1.22rem;font-weight:800;margin:0 0 14px;letter-spacing:-.01em;}
+  section.info p{color:var(--ink-soft);font-size:.93rem;}
+  ol.steps{padding-left:20px;color:var(--ink-soft);font-size:.91rem;}
+  ol.steps li{margin-bottom:9px;}
+  ol.steps b{color:var(--ink);}
+
+  .table-scroll{overflow-x:auto;}
+  table.rates{width:100%;border-collapse:collapse;margin:16px 0;font-size:.86rem;min-width:320px;}
+  table.rates th, table.rates td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);}
+  table.rates th{color:var(--ink-faint);font-weight:600;font-size:.74rem;}
+  table.rates td:last-child, table.rates th:last-child{text-align:right;font-family:var(--mono);}
+
+  details.faq{border-bottom:1px solid var(--line);padding:14px 0;}
+  details.faq summary{cursor:pointer;font-weight:700;font-size:.93rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+";color:var(--accent);font-size:1.15rem;font-weight:400;flex-shrink:0;}
+  details.faq[open] summary::after{content:"–";}
+  details.faq p{color:var(--ink-soft);font-size:.88rem;margin:9px 0 0;}
+
+  .adslot{margin:32px 0;padding:14px;border:1.5px dashed var(--line);border-radius:12px;text-align:center;font-size:.74rem;color:var(--ink-faint);font-family:var(--mono);}
+
+  footer{border-top:1px solid var(--line);margin-top:20px;padding:26px 0 40px;}
+  footer .foot-links{display:flex;gap:16px;font-size:.8rem;margin-bottom:10px;flex-wrap:wrap;}
+  footer .foot-links a{text-decoration:none;color:var(--ink-soft);}
+  footer .foot-links a:hover{color:var(--ink);}
+  footer .foot-note{font-size:.74rem;color:var(--ink-faint);line-height:1.6;}
+
+  .support-btn{
+    position:fixed; left:20px; bottom:20px; z-index:50;
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--accent); color:#fff; text-decoration:none;
+    font-family:var(--sans); font-weight:700; font-size:.85rem;
+    padding:11px 17px; border-radius:100px;
+    box-shadow:0 4px 14px rgba(201,106,78,.35);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .support-btn:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(201,106,78,.45); }
+  .support-btn .emoji{font-size:1rem;}
+
+  @media (max-width:600px){
+    .support-btn{ left:12px; bottom:12px; font-size:.76rem; padding:9px 14px; gap:5px; }
+    .topbar-inner{padding:12px 16px;}
+    .topnav{gap:12px;font-size:.76rem;}
+    .wrap{padding:0 16px;}
+    h1{font-size:1.4rem;}
+    .hero{padding:28px 0 16px;}
+    .result-amount{font-size:1.5rem;}
+    .card{padding:16px;border-radius:16px;}
+    .btn-row{flex-direction:column;}
+    .field-row{grid-template-columns:1fr;gap:0;}
+    section.info h2{font-size:1.08rem;}
+    .stepper{gap:10px;}
+    .segmented{width:100%;}
+    .segmented button{flex:1;}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>근로·급여 계산기</a>
+    <nav class="topnav">
+      <a href="about.html">소개</a>
+      <a href="contact.html">문의</a>
+      <a href="privacy.html">개인정보처리방침</a>
+    </nav>
+  </div>
+</div>
+<div class="toolsnav">
+  <div class="toolsnav-inner">
+    <a href="index.html"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16" cy="14" r="1.2"/></svg></span>연봉·월급</a>
+    <a href="hourly.html"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>시급</a>
+    <a href="minwage.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12l8-8h7a2 2 0 012 2v7l-8 8a2 2 0 01-3 0l-6-6a2 2 0 010-3z"/><circle cx="15" cy="8" r="1.2"/></svg></span>최저시급</a>
+    <a href="weekly-bonus.html"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>주휴수당</a>
+    <a href="annual-leave.html"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg></span>연차수당</a>
+    <a href="four-insurances.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z"/></svg></span>4대보험</a>
+    <a href="retirement.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3l9 5H3z"/><path d="M4 10h16M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18"/></svg></span>퇴직금</a>
+    <a href="retirement-pension.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 4 4 7-8"/><path d="M15 7h5v5"/></svg></span>퇴직연금</a>
+    <a href="ordinary-wage.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M4 20h16"/></svg></span>통상임금</a>
+    <a href="overtime.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M20 14a8 8 0 11-9-11 6.5 6.5 0 009 11z"/></svg></span>야간/휴일</a>
+    <a href="unemployment.html"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/></svg></span>실업급여</a>
+    <a href="performance-pay.html"><span class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M4 9h16M12 9v11"/><path d="M12 9c-1.2-4-6-4-6-1 0 1 2 1 6 1zm0 0c1.2-4 6-4 6-1 0 1-2 1-6 1z"/></svg></span>성과급</a>
+    <a href="income-tax.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4-2 1.4V3z"/><path d="M9 8h6M9 12h6"/></svg></span>근로소득세</a>
+    <a href="retirement-tax.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 12h6M9 16h6"/></svg></span>퇴직소득세</a>
+    <a href="maternity-leave.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.3-9A5 5 0 0112 6a5 5 0 019.3 6C19 16.5 12 21 12 21z"/></svg></span>출산휴가</a>
+    <a href="parental-leave.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v3l-2 2v11a2 2 0 002 2h4a2 2 0 002-2V8l-2-2V3"/><path d="M8 13h8"/></svg></span>육아휴직</a>
+  </div>
+</div>
+<div class="wrap">
+  <div class="hero">
+    <span class="eyebrow">2026년 기준</span>
+    <h1>주휴수당 계산기</h1>
+    <p>1주 근무시간과 시급을 입력하면 주휴수당을 자동으로 계산합니다.</p>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label for="wbwage">시급</label>
+      <div class="amount-input"><input id="wbwage" type="number" placeholder="예: 12000" min="0"><span class="suffix">원</span></div>
+    </div>
+    <div class="field">
+      <label for="wbhours">1주 총 근무시간</label>
+      <div class="amount-input"><input id="wbhours" type="number" placeholder="예: 40" min="0"><span class="suffix">시간</span></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="calcWeekly()">계산하기</button>
+      <button class="btn-reset" onclick="location.reload()">초기화</button>
+    </div>
+    <div class="result" id="result">
+      <div class="result-panel">
+        <div class="result-label">주휴수당 (주 1회)</div>
+        <div class="result-amount" id="weeklyResult">0<small>원</small></div>
+        <div class="result-sub" id="monthlyResult"></div>
+      </div>
+      <p class="disclaimer">* 1주 소정근로시간이 15시간 이상이고, 그 주에 개근했을 때 발생합니다. 주 40시간을 초과해도 주휴시간은 최대 8시간까지만 인정됩니다.</p>
+    </div>
+  </div>
+  <div class="adslot"><!-- Google AdSense 광고 코드를 이 안에 삽입하세요 --></div>
+  <section class="info">
+    <h2>계산 방법</h2>
+    <ol class="steps">
+      <li>1주 근무시간이 15시간 미만이면 주휴수당이 발생하지 않습니다.</li>
+      <li><b>주휴시간</b> = (1주 근무시간 ÷ 40) × 8시간, 최대 8시간까지만 인정</li>
+      <li><b>주휴수당</b> = 시급 × 주휴시간</li>
+    </ol>
+  </section>
+  <section class="info">
+    <h2>자주 묻는 질문</h2>
+    <details class="faq">
+      <summary>결근을 하면 주휴수당을 못 받나요?</summary>
+      <p>네, 그 주에 소정근로일을 하루라도 결근하면 해당 주의 주휴수당이 발생하지 않는 것이 원칙입니다. 지각이나 조퇴는 결근이 아니므로 영향이 없습니다.</p>
+    </details>
+    <details class="faq">
+      <summary>아르바이트도 주휴수당을 받을 수 있나요?</summary>
+      <p>근로형태와 관계없이 1주 소정근로시간이 15시간 이상이면 아르바이트, 단시간 근로자도 동일하게 주휴수당을 받을 수 있습니다.</p>
+    </details>
+  </section>
+<script>
+    function won(n){ return Math.round(n).toLocaleString('ko-KR'); }
+    function calcWeekly(){
+      const wage = parseFloat(document.getElementById('wbwage').value)||0;
+      const hours = parseFloat(document.getElementById('wbhours').value)||0;
+      if (wage<=0 || hours<=0){ document.getElementById('result').classList.remove('show'); return; }
+      const holidayHours = hours>=15 ? Math.min(8, (hours/40)*8) : 0;
+      const weeklyPay = wage*holidayHours;
+      document.getElementById('weeklyResult').innerHTML = won(weeklyPay)+'<small>원</small>';
+      document.getElementById('monthlyResult').textContent = holidayHours<=0 ? '주 15시간 미만: 주휴수당 미발생' : '월 환산 약 '+won(weeklyPay*4.345)+'원 (주휴시간 '+holidayHours.toFixed(1)+'시간)';
+      document.getElementById('result').classList.remove('show'); void document.getElementById('result').offsetWidth;
+      document.getElementById('result').classList.add('show');
+    }
+  </script>
+  <footer>
+    <div class="foot-links">
+      <a href="about.html">소개</a>
+      <a href="contact.html">문의</a>
+      <a href="privacy.html">개인정보처리방침</a>
+    </div>
+    <div class="foot-note">
+      본 계산기는 참고용 추정 도구이며 법적 효력이 없습니다. 실제 지급·공제 금액은 소속 회사, 고용노동부,
+      국민연금공단, 국세청 등 공식 기관의 안내를 우선으로 확인하시기 바랍니다.
+    </div>
+  </footer>
+</div>
+<a class="support-btn" href="https://litt.ly/YOUR-LINK" target="_blank" rel="noopener noreferrer">
+  <span class="emoji" aria-hidden="true">🧦</span> 개발자 양말 사주기
+</a>
+</body>
+</html>
