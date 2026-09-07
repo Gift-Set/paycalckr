@@ -117,20 +117,8 @@
   footer .foot-links a:hover{color:var(--ink);}
   footer .foot-note{font-size:.74rem;color:var(--ink-faint);line-height:1.6;}
 
-  .support-btn{
-    position:fixed; left:20px; bottom:20px; z-index:50;
-    display:inline-flex; align-items:center; gap:7px;
-    background:var(--accent); color:#fff; text-decoration:none;
-    font-family:var(--sans); font-weight:700; font-size:.85rem;
-    padding:11px 17px; border-radius:100px;
-    box-shadow:0 4px 14px rgba(201,106,78,.35);
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .support-btn:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(201,106,78,.45); }
-  .support-btn .emoji{font-size:1rem;}
 
   @media (max-width:600px){
-    .support-btn{ left:12px; bottom:12px; font-size:.76rem; padding:9px 14px; gap:5px; }
     .topbar-inner{padding:12px 16px;}
     .topnav{gap:12px;font-size:.76rem;}
     .wrap{padding:0 16px;}
@@ -235,6 +223,14 @@
       <summary>중도에 DB형에서 DC형으로 바꿀 수 있나요?</summary>
       <p>회사의 퇴직연금 규약에 따라 전환이 허용되는 경우가 있습니다. 전환 시점까지의 DB형 적립분은 그대로 유지되고, 이후 적립분부터 DC형 방식이 적용되는 경우가 일반적이니 회사 인사팀에 확인하는 것이 정확합니다.</p>
     </details>
+    <details class="faq">
+      <summary>퇴직연금 가입은 의무인가요?</summary>
+      <p>2022년부터 신규 성립 사업장은 퇴직연금 제도 도입이 의무화되었고, 기존 사업장도 순차적으로 도입이 확대되는 추세입니다. 다만 아직 법정 퇴직금 제도만 운영하는 회사도 있습니다.</p>
+    </details>
+    <details class="faq">
+      <summary>IRP 계좌란 무엇인가요?</summary>
+      <p>개인형 퇴직연금(IRP) 계좌는 퇴직급여를 수령하는 개인 명의 계좌로, 퇴직금을 여기로 받으면 연금으로 수령할 때까지 퇴직소득세 과세가 이연되는 장점이 있습니다.</p>
+    </details>
   </section>
     <script type="application/ld+json">
 {
@@ -255,6 +251,22 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "회사의 퇴직연금 규약에 따라 전환이 허용되는 경우가 있습니다. 전환 시점까지의 DB형 적립분은 그대로 유지되고, 이후 적립분부터 DC형 방식이 적용되는 경우가 일반적이니 회사 인사팀에 확인하는 것이 정확합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "퇴직연금 가입은 의무인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "2022년부터 신규 성립 사업장은 퇴직연금 제도 도입이 의무화되었고, 기존 사업장도 순차적으로 도입이 확대되는 추세입니다. 다만 아직 법정 퇴직금 제도만 운영하는 회사도 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "IRP 계좌란 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "개인형 퇴직연금(IRP) 계좌는 퇴직급여를 수령하는 개인 명의 계좌로, 퇴직금을 여기로 받으면 연금으로 수령할 때까지 퇴직소득세 과세가 이연되는 장점이 있습니다."
       }
     }
   ]
@@ -308,8 +320,5 @@
     </div>
   </footer>
 </div>
-<a class="support-btn" href="https://litt.ly/jon0dev" target="_blank" rel="noopener noreferrer">
-  <span class="emoji" aria-hidden="true">🧦</span> 개발자 양말 사주기
-</a>
 </body>
 </html>

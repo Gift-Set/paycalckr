@@ -117,20 +117,8 @@
   footer .foot-links a:hover{color:var(--ink);}
   footer .foot-note{font-size:.74rem;color:var(--ink-faint);line-height:1.6;}
 
-  .support-btn{
-    position:fixed; left:20px; bottom:20px; z-index:50;
-    display:inline-flex; align-items:center; gap:7px;
-    background:var(--accent); color:#fff; text-decoration:none;
-    font-family:var(--sans); font-weight:700; font-size:.85rem;
-    padding:11px 17px; border-radius:100px;
-    box-shadow:0 4px 14px rgba(201,106,78,.35);
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .support-btn:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(201,106,78,.45); }
-  .support-btn .emoji{font-size:1rem;}
 
   @media (max-width:600px){
-    .support-btn{ left:12px; bottom:12px; font-size:.76rem; padding:9px 14px; gap:5px; }
     .topbar-inner{padding:12px 16px;}
     .topnav{gap:12px;font-size:.76rem;}
     .wrap{padding:0 16px;}
@@ -225,6 +213,14 @@
       <summary>사후지급금 제도는 어떻게 되나요?</summary>
       <p>2026년부터 사후지급금(25%를 복직 후 지급하던 방식) 제도가 폐지되어 육아휴직 급여를 매달 전액 지급받을 수 있습니다. 다만 2025년 중 발생한 미수령분은 기존 방식대로 지급됩니다.</p>
     </details>
+    <details class="faq">
+      <summary>육아휴직 급여 신청은 언제 하나요?</summary>
+      <p>육아휴직 시작일 이후 1개월부터 종료일 이후 12개월 이내에 신청해야 하며, 매달 신청하거나 사후 일괄 신청하는 방식 모두 가능합니다.</p>
+    </details>
+    <details class="faq">
+      <summary>육아휴직 중에도 4대보험은 유지되나요?</summary>
+      <p>고용관계가 유지되므로 4대보험 자격은 유지되지만, 국민연금·건강보험 등 보험료 납부 예외·유예를 신청할 수 있는 경우가 있습니다.</p>
+    </details>
   </section>
   <script type="application/ld+json">
 {
@@ -245,6 +241,22 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "2026년부터 사후지급금(25%를 복직 후 지급하던 방식) 제도가 폐지되어 육아휴직 급여를 매달 전액 지급받을 수 있습니다. 다만 2025년 중 발생한 미수령분은 기존 방식대로 지급됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "육아휴직 급여 신청은 언제 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "육아휴직 시작일 이후 1개월부터 종료일 이후 12개월 이내에 신청해야 하며, 매달 신청하거나 사후 일괄 신청하는 방식 모두 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "육아휴직 중에도 4대보험은 유지되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "고용관계가 유지되므로 4대보험 자격은 유지되지만, 국민연금·건강보험 등 보험료 납부 예외·유예를 신청할 수 있는 경우가 있습니다."
       }
     }
   ]
@@ -294,8 +306,5 @@
     </div>
   </footer>
 </div>
-<a class="support-btn" href="https://litt.ly/jon0dev" target="_blank" rel="noopener noreferrer">
-  <span class="emoji" aria-hidden="true">🧦</span> 개발자 양말 사주기
-</a>
 </body>
 </html>

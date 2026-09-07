@@ -117,20 +117,8 @@
   footer .foot-links a:hover{color:var(--ink);}
   footer .foot-note{font-size:.74rem;color:var(--ink-faint);line-height:1.6;}
 
-  .support-btn{
-    position:fixed; left:20px; bottom:20px; z-index:50;
-    display:inline-flex; align-items:center; gap:7px;
-    background:var(--accent); color:#fff; text-decoration:none;
-    font-family:var(--sans); font-weight:700; font-size:.85rem;
-    padding:11px 17px; border-radius:100px;
-    box-shadow:0 4px 14px rgba(201,106,78,.35);
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .support-btn:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(201,106,78,.45); }
-  .support-btn .emoji{font-size:1rem;}
 
   @media (max-width:600px){
-    .support-btn{ left:12px; bottom:12px; font-size:.76rem; padding:9px 14px; gap:5px; }
     .topbar-inner{padding:12px 16px;}
     .topnav{gap:12px;font-size:.76rem;}
     .wrap{padding:0 16px;}
@@ -220,6 +208,14 @@
       <summary>세전·세후 차이가 왜 이렇게 큰가요?</summary>
       <p>성과급은 그 달 급여와 합산돼 누진세율이 적용되기 때문에, 평소보다 높은 세율 구간이 일시적으로 적용될 수 있습니다. 다음 해 연말정산에서 정산됩니다.</p>
     </details>
+    <details class="faq">
+      <summary>성과급도 퇴직금 계산(평균임금)에 포함되나요?</summary>
+      <p>정기적·계속적으로 지급되는 성과급이라면 평균임금 산정에 포함될 수 있지만, 지급 여부가 매번 불확실한 일시적 성과급은 제외되는 경우가 많습니다.</p>
+    </details>
+    <details class="faq">
+      <summary>지급률 200%는 어떤 의미인가요?</summary>
+      <p>기준급(보통 기본급 또는 월급)의 2배에 해당하는 금액을 성과급으로 지급한다는 뜻으로, 회사마다 기준급의 정의와 지급 시기가 다를 수 있습니다.</p>
+    </details>
   </section>
   <script type="application/ld+json">
 {
@@ -240,6 +236,22 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "성과급은 그 달 급여와 합산돼 누진세율이 적용되기 때문에, 평소보다 높은 세율 구간이 일시적으로 적용될 수 있습니다. 다음 해 연말정산에서 정산됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "성과급도 퇴직금 계산(평균임금)에 포함되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "정기적·계속적으로 지급되는 성과급이라면 평균임금 산정에 포함될 수 있지만, 지급 여부가 매번 불확실한 일시적 성과급은 제외되는 경우가 많습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "지급률 200%는 어떤 의미인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "기준급(보통 기본급 또는 월급)의 2배에 해당하는 금액을 성과급으로 지급한다는 뜻으로, 회사마다 기준급의 정의와 지급 시기가 다를 수 있습니다."
       }
     }
   ]
@@ -282,8 +294,5 @@
     </div>
   </footer>
 </div>
-<a class="support-btn" href="https://litt.ly/jon0dev" target="_blank" rel="noopener noreferrer">
-  <span class="emoji" aria-hidden="true">🧦</span> 개발자 양말 사주기
-</a>
 </body>
 </html>

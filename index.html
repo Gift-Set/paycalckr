@@ -117,20 +117,8 @@
   footer .foot-links a:hover{color:var(--ink);}
   footer .foot-note{font-size:.74rem;color:var(--ink-faint);line-height:1.6;}
 
-  .support-btn{
-    position:fixed; left:20px; bottom:20px; z-index:50;
-    display:inline-flex; align-items:center; gap:7px;
-    background:var(--accent); color:#fff; text-decoration:none;
-    font-family:var(--sans); font-weight:700; font-size:.85rem;
-    padding:11px 17px; border-radius:100px;
-    box-shadow:0 4px 14px rgba(201,106,78,.35);
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .support-btn:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(201,106,78,.45); }
-  .support-btn .emoji{font-size:1rem;}
 
   @media (max-width:600px){
-    .support-btn{ left:12px; bottom:12px; font-size:.76rem; padding:9px 14px; gap:5px; }
     .topbar-inner{padding:12px 16px;}
     .topnav{gap:12px;font-size:.76rem;}
     .wrap{padding:0 16px;}
@@ -481,8 +469,5 @@ function calculate(){
     </div>
   </footer>
 </div>
-<a class="support-btn" href="https://litt.ly/jon0dev" target="_blank" rel="noopener noreferrer">
-  <span class="emoji" aria-hidden="true">🧦</span> 개발자 양말 사주기
-</a>
 </body>
 </html>
